@@ -13,23 +13,22 @@ def load_data(url):
 
 data = load_data(CSV_URL)
 
-# 지원자 리스트: "학교 - 이름" 형식
+# 지원자 리스트: 사이드바에 표시
 applicant_names = (data["학교"] + " - " + data["이름"]).tolist()
-
 if not applicant_names:
     st.write("지원자가 없습니다.")
 else:
-    # 세션 상태에 선택된 인덱스가 없으면 초기값 0으로 설정
+    # 세션 상태에 선택된 인덱스가 없으면 초기값 0 설정
     if "selected_index" not in st.session_state:
         st.session_state.selected_index = 0
 
     # 사이드바 라디오 버튼: 세션 상태의 값을 초기 선택값으로 사용
     selected_applicant = st.sidebar.radio(
-        "지원자 리스트", 
-        applicant_names, 
+        "지원자 리스트",
+        applicant_names,
         index=st.session_state.selected_index
     )
-    # 라디오 버튼으로 선택된 인덱스 업데이트
+    # 라디오 버튼으로 선택된 인덱스를 업데이트
     st.session_state.selected_index = applicant_names.index(selected_applicant)
     selected_index = st.session_state.selected_index
     applicant = data.iloc[selected_index]
