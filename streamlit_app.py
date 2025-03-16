@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 
+# 화면 페이지 레이아웃을 와이드 모드로 
+st.set_page_config(layout="wide")
+
 # URL 형식: https://docs.google.com/spreadsheets/d/<스프레드시트ID>/export?format=csv&id=<스프레드시트ID>&gid=<시트ID>
 SHEET_ID = "1HA1PtKWg-bFud5R3d_wMVX7wOpfcHkekKD-9T7wpxfE"
 GID = "1353891871"
@@ -68,7 +71,7 @@ with col2:
         else:
             st.write("file_id가 없습니다.")
         st.markdown(
-            f'<iframe src="{embeded_file_url}" width="100%" height="800px"></iframe>',
+            f'<iframe src="{embeded_file_url}" width="100%" height="500px"></iframe>',
             unsafe_allow_html=True
         )
     else:
