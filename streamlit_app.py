@@ -18,22 +18,19 @@ applicant_names = (data["학교"] + " - " + data["이름"]).tolist()
 if not applicant_names:
     st.write("지원자가 없습니다.")
 else:
-    # 세션 상태에 선택된 인덱스가 없으면 초기값 0 설정
     if "selected_index" not in st.session_state:
         st.session_state.selected_index = 0
 
-    # 사이드바 라디오 버튼: 세션 상태의 값을 초기 선택값으로 사용
+    # 사이드바에 라디오 버튼 (세션 상태와 동기화)
     selected_applicant = st.sidebar.radio(
         "지원자 리스트",
         applicant_names,
         index=st.session_state.selected_index
     )
-    # 라디오 버튼으로 선택된 인덱스를 업데이트
     st.session_state.selected_index = applicant_names.index(selected_applicant)
     selected_index = st.session_state.selected_index
     applicant = data.iloc[selected_index]
 
-    # 메인 영역에 지원자 상세 정보 표시
     st.header(f"지원자 정보 : {applicant['학교']} - {applicant['이름']}")
 
     col1, col2 = st.columns(2)
@@ -74,11 +71,9 @@ else:
     with prev_col:
         if st.button("⬅️ 이전", disabled=(selected_index == 0)):
             st.session_state.selected_index = selected_index - 1
-            st.experimental_rerun()  # 인덱스 변경 후 화면 갱신
 
     with next_col:
         if st.button("다음 ➡️", disabled=(selected_index == len(data) - 1)):
             st.session_state.selected_index = selected_index + 1
-            st.experimental_rerun()  # 인덱스 변경 후 화면 갱신
 
-    st.write(f"지원자 {selected_index + 1} / {len(data)}")
+    st.write(f"지원자 {st.session_state.selected_index + 1} / {len(data)}")
