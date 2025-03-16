@@ -44,7 +44,7 @@ with col1:
         st.write("YouTube 영상이 없습니다.")
 
 with col2:
-    pdf_url = applicant["문서제출"]
+    pdf_url = applicant["문서 제출"]
     # PDF 문서 미리보기 - iframe 사용 (문서 URL이 공개되어 있어야 함)
     if pd.notnull(pdf_url):
         st.markdown(
