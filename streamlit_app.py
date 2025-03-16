@@ -42,14 +42,33 @@ with col1:
         st.video(youtube_url)
     else:
         st.write("YouTube 영상이 없습니다.")
+# pdf_file url 파서 만들기
+def extract_file_id(url: str) -> str:
+    # 'id=' 이후의 문자열을 추출
+    if "id=" in url:
+        file_id = url.split("id=")[1]
+        # 추가 파라미터가 있을 경우 '&' 이전까지만 추출
+        if "&" in file_id:
+            file_id = file_id.split("&")[0]
+        return file_id
+    return None
+
+
+
+
 
 with col2:
     pdf_url = applicant["문서 제출"]
     # PDF 문서 미리보기 - iframe 사용 (문서 URL이 공개되어 있어야 함)
+    file_id = extract_file_id(pdf_url)
     if pd.notnull(pdf_url):
         st.write(pdf_url)
+        if file_id:
+            embeded_file_url = f"https://drive.google.com/file/d/{file_id}/preview"
+        else:
+            st.write("file_id가 없습니다.")
         st.markdown(
-            f'<iframe src="{pdf_url}" width="100%" height="800px"></iframe>',
+            f'<iframe src="{embeded_file_url}" width="100%" height="800px"></iframe>',
             unsafe_allow_html=True
         )
     else:
