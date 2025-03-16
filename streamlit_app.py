@@ -18,8 +18,8 @@ applicant_names = (data["학교"] + " - " + data["이름"]).tolist()
 if not applicant_names:
     st.write("지원자가 없습니다.")
 else:
-    if "selected_index" not in st.session_state:
-        st.session_state.selected_index = 0
+    # if "selected_index" not in st.session_state:
+    st.session_state.selected_index = 0
 
     # 사이드바에 라디오 버튼 (세션 상태와 동기화)
     selected_applicant = st.sidebar.radio(
