@@ -13,6 +13,7 @@ def load_data(url):
 # 데이터 불러오기
 data = load_data(CSV_URL)
 
+print(data)
 # 세션 상태에 현재 인덱스 저장 (초기값 0)
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
@@ -27,7 +28,7 @@ elif current_index >= len(data):
 applicant = data.iloc[current_index]
 
 # 상단: 학교명과 이름 표시
-school_name = applicant["학교명"]
+school_name = applicant["학교"]
 name = applicant["이름"]
 st.header(f"{school_name} - {name}")
 
@@ -35,7 +36,7 @@ st.header(f"{school_name} - {name}")
 col1, col2 = st.columns(2)
 
 with col1:
-    youtube_url = applicant["youtube영상주소"]
+    youtube_url = applicant["영상주소"]
     # YouTube URL이 정상적인지 간단히 확인 후 영상 임베드
     if pd.notnull(youtube_url):
         st.video(youtube_url)
