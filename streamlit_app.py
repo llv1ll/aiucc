@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-# 공개된 구글 스프레드시트의 CSV 다운로드 URL 변환
 # URL 형식: https://docs.google.com/spreadsheets/d/<스프레드시트ID>/export?format=csv&id=<스프레드시트ID>&gid=<시트ID>
 SHEET_ID = "1HA1PtKWg-bFud5R3d_wMVX7wOpfcHkekKD-9T7wpxfE"
 GID = "1353891871"
