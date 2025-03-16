@@ -67,7 +67,7 @@ else:
 
     # 이전/다음 버튼을 위한 컬럼 생성
     prev_col, next_col = st.columns(2)
-    st.write("selected_index= "selected_index)
+    st.write("selected_index= ", selected_index)
     with prev_col:
         if st.button("⬅️ 이전", disabled=(selected_index == 0)):
             st.session_state.selected_index = selected_index - 1
