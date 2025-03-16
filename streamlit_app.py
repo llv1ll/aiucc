@@ -13,23 +13,42 @@ def load_data(url):
 
 data = load_data(CSV_URL)
 
-# 지원자 리스트: 사이드바에 표시
 applicant_names = (data["학교"] + " - " + data["이름"]).tolist()
+
 if not applicant_names:
     st.write("지원자가 없습니다.")
 else:
+    # 세션 상태 초기화
     if "selected_index" not in st.session_state:
         st.session_state.selected_index = 0
 
-    # 사이드바에 라디오 버튼 (세션 상태와 동기화)
+    # 이전/다음 버튼 이벤트 처리
+    def prev_applicant():
+        if st.session_state.selected_index > 0:
+            st.session_state.selected_index -= 1
+
+    def next_applicant():
+        if st.session_state.selected_index < len(applicant_names) - 1:
+            st.session_state.selected_index += 1
+
+    # 이전/다음 버튼
+    prev_col, next_col = st.columns(2)
+    with prev_col:
+        st.button("⬅️ 이전", on_click=prev_applicant, disabled=(st.session_state.selected_index == 0))
+    with next_col:
+        st.button("다음 ➡️", on_click=next_applicant, disabled=(st.session_state.selected_index == len(data) - 1))
+
+    # 사이드바 radio 버튼은 세션상태와 동기화 (index를 세션 상태로 고정)
     selected_applicant = st.sidebar.radio(
         "지원자 리스트",
         applicant_names,
-        index=st.session_state.selected_index
+        index=st.session_state.selected_index,
+        key='applicant_radio'  # 키 설정하여 Streamlit 내부 상태 유지
     )
+
+    # 사용자가 라디오 버튼을 클릭하면 선택 인덱스를 갱신
     st.session_state.selected_index = applicant_names.index(selected_applicant)
-    selected_index = st.session_state.selected_index
-    applicant = data.iloc[selected_index]
+    applicant = data.iloc[st.session_state.selected_index]
 
     st.header(f"지원자 정보 : {applicant['학교']} - {applicant['이름']}")
 
@@ -65,15 +84,5 @@ else:
         else:
             st.write("제출된 문서가 없습니다.")
 
-    # 이전/다음 버튼을 위한 컬럼 생성
-    prev_col, next_col = st.columns(2)
-    st.write("selected_index= ", selected_index)
-    with prev_col:
-        if st.button("⬅️ 이전", disabled=(selected_index == 0)):
-            st.session_state.selected_index = selected_index - 1
-
-    with next_col:
-        if st.button("다음 ➡️", disabled=(selected_index == len(data) - 1)):
-            st.session_state.selected_index = selected_index + 1
-
+    # 페이지 하단에 현재 인덱스 정보 표시
     st.write(f"지원자 {st.session_state.selected_index + 1} / {len(data)}")
