@@ -74,6 +74,7 @@ else:
 
     with next_col:
         if st.button("다음 ➡️", disabled=(selected_index == len(data) - 1)):
+            st.write(seleted_index)
             st.session_state.selected_index = selected_index + 1
 
     st.write(f"지원자 {st.session_state.selected_index + 1} / {len(data)}")
