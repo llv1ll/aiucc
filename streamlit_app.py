@@ -4,6 +4,7 @@ import pandas as pd
 # 화면 페이지 레이아웃을 와이드 모드로 
 st.set_page_config(layout="wide")
 
+# 구글스프레드시트를 바꾸는 경우 아래의 양식형태로 맞춰주어야 한다. SHEET_ID, GID
 # URL 형식: https://docs.google.com/spreadsheets/d/<스프레드시트ID>/export?format=csv&id=<스프레드시트ID>&gid=<시트ID>
 SHEET_ID = "1HA1PtKWg-bFud5R3d_wMVX7wOpfcHkekKD-9T7wpxfE"
 GID = "1353891871"
@@ -16,7 +17,13 @@ def load_data(url):
 # 데이터 불러오기
 data = load_data(CSV_URL)
 
-print(data)
+# 지원자 리스트: "학교명 - 이름" 형식으로 표시(왼쪽에 메뉴 구성)
+applicant_names = (data["학교명"] + " - " + data["이름"]).tolist()
+selected_applicant = st.sidebar.radio("지원자 리스트", applicant_names)
+selected_index = applicant_names.index(selected_applicant)
+applicant = data.iloc[selected_index]
+
+
 # 세션 상태에 현재 인덱스 저장 (초기값 0)
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
@@ -33,7 +40,7 @@ applicant = data.iloc[current_index]
 # 상단: 학교명과 이름 표시
 school_name = applicant["학교"]
 name = applicant["이름"]
-st.header(f"{school_name} - {name}")
+st.header(f"지원자 정보 : {school_name} - {name}")
 
 # 중간: 2 컬럼 레이아웃 (왼쪽: YouTube 영상, 오른쪽: PDF 미리보기)
 col1, col2 = st.columns(2)
@@ -56,16 +63,12 @@ def extract_file_id(url: str) -> str:
         return file_id
     return None
 
-
-
-
-
 with col2:
-    pdf_url = applicant["문서 제출"]
     # PDF 문서 미리보기 - iframe 사용 (문서 URL이 공개되어 있어야 함)
+    pdf_url = applicant["문서 제출"]
+    
     file_id = extract_file_id(pdf_url)
     if pd.notnull(pdf_url):
-        st.write(pdf_url)
         if file_id:
             embeded_file_url = f"https://drive.google.com/file/d/{file_id}/preview"
         else:
