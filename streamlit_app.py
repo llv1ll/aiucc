@@ -17,8 +17,8 @@ def load_data(url):
 # 데이터 불러오기
 data = load_data(CSV_URL)
 
-# 지원자 리스트: "학교명 - 이름" 형식으로 표시(왼쪽에 메뉴 구성)
-applicant_names = (data["학교명"] + " - " + data["이름"]).tolist()
+# 지원자 리스트: "학교 - 이름" 형식으로 표시(왼쪽에 메뉴 구성)
+applicant_names = (data["학교"] + " - " + data["이름"]).tolist()
 selected_applicant = st.sidebar.radio("지원자 리스트", applicant_names)
 selected_index = applicant_names.index(selected_applicant)
 applicant = data.iloc[selected_index]
