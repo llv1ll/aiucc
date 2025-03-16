@@ -30,7 +30,7 @@ applicant = data.iloc[selected_index]
 
 # 세션 상태에 현재 인덱스 저장 (초기값 0)
 if "current_index" not in st.session_state:
-    st.session_state.current_index = 0
+    st.session_state.current_index = selected_index 
 
 # 현재 지원자 정보 선택 (인덱스 범위 체크)
 current_index = st.session_state.current_index
@@ -39,7 +39,7 @@ if current_index < 0:
 elif current_index >= len(data):
     current_index = len(data) - 1
 
-applicant = data.iloc[current_index]
+applicant = data.iloc[selected_index ]
 
 
 
