@@ -47,8 +47,9 @@ with col2:
     pdf_url = applicant["문서 제출"]
     # PDF 문서 미리보기 - iframe 사용 (문서 URL이 공개되어 있어야 함)
     if pd.notnull(pdf_url):
+        st.write(pdf_url)
         st.markdown(
-            f'<iframe src="{pdf_url}" width="100%" height="500px"></iframe>',
+            f'<iframe src="{pdf_url}" width="100%" height="800px"></iframe>',
             unsafe_allow_html=True
         )
     else:
